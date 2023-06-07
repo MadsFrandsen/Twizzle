@@ -34,7 +34,7 @@ DELETE FROM Posts;
 
 
 COPY Users(email_address, user_name, password)
-FROM '/Users/madsfrandsen/Documents/DIS/Group_Project/twizzle/MOCK_DATA.csv'
+FROM '/Users/madsfrandsen/Documents/DIS/Group_Project/twizzle/dataset/only_hashed.csv'
 DELIMITER ','
 CSV HEADER;
 

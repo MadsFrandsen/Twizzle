@@ -12,6 +12,16 @@ def insert_user(user: User):
     conn.commit()
 
 
+def init_user(email_address, user_name, password):
+    sql ="""
+    INSERT INTO Users(email_address, user_name, password)
+    VALUES (%s, %s, %s)
+    """
+    # cur.execute(sql, (user['email_address'], user['user_name'], user['password']))
+    cur.execute(sql, (email_address, user_name, password))
+    conn.commit()
+
+
 def insert_post(post: Post):
     sql = """
     INSERT INTO Posts(title, content, user_id)
@@ -162,3 +172,4 @@ def delete_a_post(id):
     """
     cur.execute(sql, (id,))
     conn.commit()
+

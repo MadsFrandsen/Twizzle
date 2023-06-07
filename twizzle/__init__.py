@@ -1,5 +1,6 @@
 import os
 import psycopg2
+import pandas as pd
 from pathlib import Path
 from dotenv import load_dotenv
 from flask import Flask, current_app
@@ -36,6 +37,37 @@ cur.execute(db_file.read())
 conn.commit()
 
 
+def init_users(data):
+    from twizzle.queries import init_user
+
+    # data = {'email_address': ['test@gmail.com'],
+    #     'user_name': ['test'],
+    #     'password': ['123']}
+    
+    # df = pandas.DataFrame(data)
+
+    # hashed_password = bcrypt.generate_password_hash(df['password']).decode('utf-8')
+    # user_data = dict(email_address='test@gmail.com',
+    #                      user_name='test',
+    #                      password=hashed_password)
+
+    for _, row in data.iterrows():
+        email_address = row['email_address']
+        user_name = row['user_name']
+        password = row['password']
+
+        hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+        init_user(email_address, user_name, hashed_password)
+
+
+
+    # hashed_password = bcrypt.generate_password_hash('123').decode('utf-8')
+    # user_data = dict(email_address='test@gmail.com',
+    #                      user_name='test',
+    #                      password=hashed_password)
+    # init_user(user_data)
+
+
 def create_app(config_cass=Config):
     app = Flask(__name__)
     app.config.from_object(Config)
@@ -52,6 +84,9 @@ def create_app(config_cass=Config):
     app.register_blueprint(posts)
     app.register_blueprint(main)
     app.register_blueprint(errors)
+
+    # data = pd.read_csv('/Users/madsfrandsen/Documents/DIS/Group_Project/twizzle/dataset/MOCK_DATA.csv')
+    # init_users(data)
 
     return app
 
