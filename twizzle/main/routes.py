@@ -1,5 +1,5 @@
 from flask import render_template, request, abort, Blueprint
-from twizzle.queries import get_some_posts, get_total_posts_count
+from twizzle.queries import get_some_posts, get_total_posts_count, get_likes_for_post
 
 
 main = Blueprint('main', __name__)
@@ -19,6 +19,11 @@ def home():
 
     offset = (page - 1) * limit
     posts = get_some_posts(offset, limit)
+
+    for post in posts:
+        likes_count = get_likes_for_post(post['post_id'])
+        post['likes'] = likes_count
+
     pages = [i for i in range(1, total_pages+1)]
     return render_template('home.html', posts=posts, page=page, total_pages=total_pages, pages=pages, total_posts=total_posts['count'])
 

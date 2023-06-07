@@ -1,5 +1,5 @@
-from flask import render_template, url_for, flash, redirect, request, abort, Blueprint
-from twizzle.queries import insert_post, get_post_by_id, update_a_post, delete_a_post 
+from flask import render_template, url_for, flash, redirect, request, abort, Blueprint, jsonify
+from twizzle.queries import insert_post, get_post_by_id, update_a_post, delete_a_post, like_post, unlike_post, get_like, get_likes_for_post, has_user_liked_post
 from twizzle.posts.forms import PostForm
 from twizzle.models import Post
 from flask_login import current_user, login_required
@@ -62,3 +62,20 @@ def delete_post(post_id):
     delete_a_post(post_id)
     flash('Your post has been deleted!', 'success')
     return redirect(url_for('main.home'))
+
+
+@posts.route("/post/like/<int:post_id>", methods=['POST'])
+@login_required
+def like(post_id):
+    post = get_post_by_id(post_id)
+    like = get_like(current_user.id, post_id)
+    if not post:
+        flash("Post does not exists.", category='error')
+    elif like:
+        unlike_post(current_user.id, post_id)
+    else:
+        like_post(current_user.id, post_id)
+    likes = get_likes_for_post(post_id)
+    liked = has_user_liked_post(current_user.id, post_id)
+    
+    return jsonify({"likes": likes}, {"liked": liked})

@@ -173,3 +173,51 @@ def delete_a_post(id):
     cur.execute(sql, (id,))
     conn.commit()
 
+
+def like_post(user_id, post_id):
+    sql = """
+    INSERT INTO Likes(user_id, post_id)
+    VALUES (%s, %s)
+    """
+    cur.execute(sql, (user_id, post_id))
+    conn.commit()
+
+
+def unlike_post(user_id, post_id):
+    sql = """
+    DELETE FROM Likes
+    WHERE user_id = %s AND post_id = %s
+    """
+    cur.execute(sql, (user_id, post_id))
+    conn.commit()
+
+
+def get_like(user_id, post_id):
+    sql = """
+    SELECT *
+    FROM Likes
+    WHERE user_id = %s AND post_id = %s
+    """
+    cur.execute(sql, (user_id, post_id))
+    conn.commit()
+
+
+def get_likes_for_post(post_id):
+    sql = """
+    SELECT COUNT(*) as like_count
+    FROM Likes
+    WHERE post_id = %s
+    """
+    cur.execute(sql, (post_id,))
+    count = cur.fetchone()
+    like_count = count['like_count']
+    return like_count
+
+def has_user_liked_post(user_id, post_id):
+    sql = """
+    SELECT *
+    FROM Likes
+    WHERE user_id = %s AND post_id = %s
+    """
+    cur.execute(sql, (user_id, post_id))
+    return True if cur.rowcount > 0 else False
