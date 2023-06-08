@@ -6,12 +6,12 @@ function like(postId) {
       .then((res) => res.json())
       .then((data) => {
         likeCount.innerHTML = data["likes"];
-        if (data["liked"] === true) {
+        if (data["liked"]) {
           likeButton.className = "fa fa-thumbs-up";
         } else {
           likeButton.className = "fa fa-thumbs-o-up";
         }
       })
-      .catch((e) => alert("Could not like post."));
+      .catch((e) => alert("Could not like post. Are you logged in?"));
 }
   

@@ -78,4 +78,4 @@ def like(post_id):
     likes = get_likes_for_post(post_id)
     liked = has_user_liked_post(current_user.id, post_id)
     
-    return jsonify({"likes": likes}, {"liked": liked})
+    return jsonify({"likes": likes, "liked": liked})

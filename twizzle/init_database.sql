@@ -47,6 +47,18 @@ CREATE INDEX IF NOT EXISTS likes_index
 ON Likes(like_id, user_id, post_id);
 
 
+DROP TABLE IF EXISTS Comments CASCADE;
+
+CREATE TABLE IF NOT EXISTS Comments(
+    comment_id SERIAL NOT NULL PRIMARY KEY,
+    user_id INTEGER,
+    post_id INTEGER,
+    content TEXT,
+    FOREIGN KEY (user_id) REFERENCES Users(user_id),
+    FOREIGN KEY (post_id) REFERENCES Posts(post_id)
+);
+
+
 COPY Users(email_address, user_name, password)
 FROM '/Users/madsfrandsen/Documents/DIS/Group_Project/twizzle/dataset/only_hashed.csv'
 DELIMITER ','
