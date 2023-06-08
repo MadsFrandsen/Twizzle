@@ -199,7 +199,8 @@ def get_like(user_id, post_id):
     WHERE user_id = %s AND post_id = %s
     """
     cur.execute(sql, (user_id, post_id))
-    conn.commit()
+    like = cur.fetchone() if cur.rowcount > 0 else None
+    return like
 
 
 def get_likes_for_post(post_id):

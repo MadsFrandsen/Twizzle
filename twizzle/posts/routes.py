@@ -70,7 +70,7 @@ def like(post_id):
     post = get_post_by_id(post_id)
     like = get_like(current_user.id, post_id)
     if not post:
-        flash("Post does not exists.", category='error')
+        return jsonify({'error': 'Post does not exist.'}, 400)
     elif like:
         unlike_post(current_user.id, post_id)
     else:

@@ -11,9 +11,21 @@
                 <h2><a class="article-title" href="{{ url_for('posts.post', post_id=post.post_id) }}">{{ post.title }}</a></h2>
                 <p class="article-content">{{ post.content }}</p>
                 <div>
+                    {% if current_user.is_authenticated %}
+                        {% if post.liked %}
+                        <button class="like-button">
+                            <i class="fa fa-thumbs-up" aria-hidden="true" id="like-button-{{post.post_id}}" onclick="like({{post.post_id}})"></i>
+                        </button>
+                        {% else %}
+                        <button class="like-button">
+                            <i class="fa fa-thumbs-o-up" aria-hidden="true" id="like-button-{{post.post_id}}" onclick="like({{post.post_id}})"></i>
+                        </button>
+                        {% endif %}
+                    {% else %}
                     <button class="like-button">
-                        <i class="fa fa-thumbs-o-up" id="like-button-{{post.post_id}}" onclick="like({{post.post_id}})"></i>
+                        <i class="fa fa-thumbs-o-up" aria-hidden="true" id="like-button-{{post.post_id}}" onclick="like({{post.post_id}})"></i>
                     </button>
+                    {% endif %}
                     <span id="likes-count-{{post.post_id}}">{{ post.likes }}</span>
                 </div>
             </div>

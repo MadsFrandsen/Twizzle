@@ -7,9 +7,9 @@ function like(postId) {
       .then((data) => {
         likeCount.innerHTML = data["likes"];
         if (data["liked"] === true) {
-          likeButton.className = "fas fa-thumbs-up";
+          likeButton.className = "fa fa-thumbs-up";
         } else {
-          likeButton.className = "far fa-thumbs-up";
+          likeButton.className = "fa fa-thumbs-o-up";
         }
       })
       .catch((e) => alert("Could not like post."));
