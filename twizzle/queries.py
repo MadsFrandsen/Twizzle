@@ -214,6 +214,7 @@ def get_likes_for_post(post_id):
     like_count = count['like_count']
     return like_count
 
+
 def has_user_liked_post(user_id, post_id):
     sql = """
     SELECT *
@@ -222,3 +223,32 @@ def has_user_liked_post(user_id, post_id):
     """
     cur.execute(sql, (user_id, post_id))
     return True if cur.rowcount > 0 else False
+
+
+def add_comment(user_id, post_id, content):
+    sql = """
+    INSERT INTO Comments(user_id, post_id, content)
+    VALUES(%s, %s, %s)
+    """
+    cur.execute(sql, (user_id, post_id, content))
+    conn.commit()
+
+
+def delete_comment(comment_id):
+    sql = """
+    DELETE FROM Comments
+    WHERE comment_id = %s
+    """
+    cur.execute(sql, (comment_id,))
+    conn.commit()
+
+
+def get_comments_by_post_id(post_id):
+    sql = """
+    SELECT *
+    FROM Comments
+    WHERE post_id = %s
+    """
+    cur.execute(sql, (post_id))
+    comments = cur.fetchall()
+    return comments

@@ -83,7 +83,3 @@ body {
     background-color: white;
     border: none;
   }
-
-  .like-button:active {
-    background-color: blue;
-  }
