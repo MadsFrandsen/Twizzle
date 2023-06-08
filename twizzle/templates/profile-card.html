@@ -1,0 +1,42 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='profile-card.css') }}">
+
+<div class="profile-card-wrapper">
+    <div class="wrapper">
+        <a class="profile-bg main-wrapper d-block"></a>
+        <div>
+            <a href="#" id="profile-link">
+                <img decoding="async" src="{{ url_for('static', filename='profile_pics/' + user.image_file) }}" id="profile-img">
+            </a>
+            <div id="profile-marg">
+                <div id="profile-name">
+                    <a href="#">{{ user.user_name }}</a>
+                </div>
+                <div>
+                    <button class="follow-btn">Follow</button>
+                </div>
+            </div>
+            <div id="profile-state">
+                <ul id="profile-Arrange">
+                    <li id="profile-details">
+                        <a href="#">
+                            <span class="d-block" id="profile-label">Tweets</span>
+                            <span id="profile-number">9.840</span>
+                        </a>
+                    </li>
+                    <li id="profile-details">
+                        <a href="#">
+                            <span class="d-block" id="profile-label">Following</span>
+                            <span id="profile-number">885</span>
+                        </a>
+                    </li>
+                    <li id="profile-details">
+                        <a href="#">
+                            <span class="d-block" id="profile-label">Followers</span>
+                            <span id="profile-number">1.810</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

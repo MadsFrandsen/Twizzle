@@ -1,5 +1,5 @@
 from twizzle import cur, conn
-from twizzle.models import User, Post
+from twizzle.models import User, Post, Comment
 from flask import abort
 
 
