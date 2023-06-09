@@ -1,8 +1,8 @@
 from flask import Blueprint
 import os
-from flask import render_template, url_for, flash, redirect, request, abort, current_app
+from flask import render_template, url_for, flash, redirect, request, abort, current_app, jsonify
 from twizzle import bcrypt
-from twizzle.queries import insert_user, get_user_by_email, update_user_info, get_some_posts_by_user, get_user_post_count, get_user_by_name, update_user_password, has_user_liked_post, get_likes_for_post
+from twizzle.queries import insert_user, get_user_by_email, update_user_info, get_some_posts_by_user, get_user_post_count, get_user_by_name, update_user_password, has_user_liked_post, get_likes_for_post, get_followers_count_for_user, get_following_count_for_user, does_user_follow, follow_user, unfollow_user
 from twizzle.users.forms import RegistrationForm, LoginForm, UpdateAccountForm, RequestResetForm, ResetPasswordForm
 from twizzle.users.utils import save_picture, send_reset_email
 from twizzle.models import User
@@ -97,9 +97,15 @@ def user_posts(user_name):
         if current_user.is_authenticated:
             has_liked = has_user_liked_post(current_user.id, post['post_id'])
             post['liked'] = has_liked
+    
+    following = get_following_count_for_user(user.id)
+    followers = get_followers_count_for_user(user.id)
 
     pages = [i for i in range(1, total_pages+1)]
-    return render_template('user_posts.html', posts=posts, user=user, page=page, total_pages=total_pages, pages=pages, total_posts=total_posts['count'])
+    return render_template('user_posts.html', posts=posts, user=user, 
+                           page=page, total_pages=total_pages, 
+                           pages=pages, total_posts=total_posts['count'],
+                           following=following, followers=followers)
 
 
 
@@ -133,3 +139,20 @@ def reset_token(token):
         flash('Your password has been updated! You are now able to log in!', 'success')
         return redirect(url_for('users.login'))
     return render_template('reset_token.html', title='Reset Password', form=form)
+
+
+@users.route("/user/follow/<string:user_name>", methods=['POST'])
+@login_required
+def follow_user(user_name):
+    user = get_user_by_name(user_name)
+    follow = does_user_follow(current_user.id)
+    if not user:
+        return jsonify({'error': 'User does not exist.'}, 400)
+    elif follow:
+        unfollow_user(user.id, current_user.id)
+    else:
+        follow_user(user.id, current_user.id)
+    
+    followers = get_followers_count_for_user(user.id)
+    followed = does_user_follow(current_user.id)
+    return jsonify({"followers": followers, "followed": followed})
