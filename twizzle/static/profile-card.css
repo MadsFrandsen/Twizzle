@@ -76,6 +76,12 @@ ul#profile-Arrange{
     font-weight: 500;
     transition: color 0.15s ease-in-out 0s;
 }
+#profile-number-followers{
+    display: block;
+    font-size: 18px;
+    font-weight: 500;
+    transition: color 0.15s ease-in-out 0s;
+}
 #profile-label-posts{
     color:#8899a6;
     font-size:10px;
@@ -102,7 +108,9 @@ ul#profile-Arrange{
 }
 
 .follow-btn {
-    background-color: rgb(220, 220, 220);
+    /* background-color: rgb(220, 220, 220); */
+    background-color: rgb(29, 161, 242);
+    color: white;
     border: none;
     border-width: 1px;
     border-radius: 30px;
@@ -110,5 +118,31 @@ ul#profile-Arrange{
     padding-right: 10px;
     padding-top: 5px;
     padding-bottom: 5px;
-    margin-left: 550px;
+    margin-left: 530px;
 }
+
+.unfollow-btn {
+    background-color: black;
+    color: white;
+    border: none;
+    border-color: white;
+    border-width: 2px;
+    border-radius: 30px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-left: 530px;
+}
+
+.unfollow-btn:hover {
+    color: red;
+    border: solid;
+    border-color: red;
+    border-width: 2px;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
