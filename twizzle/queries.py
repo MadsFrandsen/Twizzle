@@ -225,13 +225,21 @@ def has_user_liked_post(user_id, post_id):
     return True if cur.rowcount > 0 else False
 
 
-def add_comment(user_id, post_id, content):
+def add_comment(comment: Comment):
     sql = """
     INSERT INTO Comments(user_id, post_id, content)
     VALUES(%s, %s, %s)
     """
-    cur.execute(sql, (user_id, post_id, content))
+    cur.execute(sql, (comment.uid, comment.pid, comment.content))
     conn.commit()
+
+# def insert_post(post: Post):
+#     sql = """
+#     INSERT INTO Posts(title, content, user_id)
+#     VALUES (%s, %s, %s)
+#     """
+#     cur.execute(sql, (post.title, post.content, post.uid))
+#     conn.commit()
 
 
 def delete_comment(comment_id):
@@ -249,14 +257,36 @@ def get_comments_by_post_id(post_id):
     FROM Comments
     WHERE post_id = %s
     """
-    cur.execute(sql, (post_id))
+    cur.execute(sql, (post_id,))
     comments = cur.fetchall()
     return comments
 
 
+def get_comments_count_by_post_id(post_id):
+    sql = """
+    SELECT COUNT(*) AS comments_count
+    FROM Comments
+    WHERE post_id = %s
+    """
+    cur.execute(sql, (post_id,))
+    count = cur.fetchone()
+    comments_count = count['comments_count']
+    return comments_count
+
+
+def get_comment_author(comment_id):
+    sql = """
+    SELECT *
+    FROM Comments
+    WHERE comment_id = %s
+    """
+    cur.execute(sql, (comment_id,))
+    
+
+
 def get_followers_count_for_user(user_id):
     sql = """
-    SELECT COUNT(*) as follower_count
+    SELECT COUNT(*) AS follower_count
     FROM Follows
     WHERE user_id1 = %s
     """

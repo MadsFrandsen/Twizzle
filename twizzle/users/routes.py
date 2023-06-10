@@ -2,7 +2,7 @@ from flask import Blueprint
 import os
 from flask import render_template, url_for, flash, redirect, request, abort, current_app, jsonify
 from twizzle import bcrypt
-from twizzle.queries import insert_user, get_user_by_email, update_user_info, get_some_posts_by_user, get_user_post_count, get_user_by_name, update_user_password, has_user_liked_post, get_likes_for_post, get_followers_count_for_user, get_following_count_for_user, does_user_follow, follow_user, unfollow_user, get_user_by_id
+from twizzle.queries import insert_user, get_user_by_email, update_user_info, get_some_posts_by_user, get_user_post_count, get_user_by_name, update_user_password, has_user_liked_post, get_likes_for_post, get_followers_count_for_user, get_following_count_for_user, does_user_follow, follow_user, unfollow_user, get_user_by_id, get_comments_count_by_post_id
 from twizzle.users.forms import RegistrationForm, LoginForm, UpdateAccountForm, RequestResetForm, ResetPasswordForm
 from twizzle.users.utils import save_picture, send_reset_email
 from twizzle.models import User
@@ -94,6 +94,8 @@ def user_posts(user_name):
     for post in posts:
         likes_count = get_likes_for_post(post['post_id'])
         post['likes'] = likes_count
+        comment_count = get_comments_count_by_post_id(post['post_id'])
+        post['comments'] = comment_count
         if current_user.is_authenticated:
             has_liked = has_user_liked_post(current_user.id, post['post_id'])
             post['liked'] = has_liked

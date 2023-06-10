@@ -16,34 +16,12 @@ function like(postId) {
 }
 
 
-// function follow(userId) {
-//   const followCount = document.querySelector('#profile-number-followers');
-//   const followButton = document.querySelector('#follow-btn');
-
-//   fetch(`/user/follow/${userId}`, { method: "POST" })
-//     .then((res) => res.json())
-//     .then((data) => {
-//       followCount.innerHTML = data.followers;
-//       if (data.followed) {
-//         followButton.textContent = "Unfollow";
-//         followButton.classList.remove("follow-btn");
-//         followButton.classList.add("unfollow-btn");
-//       } else {
-//         followButton.textContent = "Follow";
-//         followButton.classList.remove("unfollow-btn");
-//         followButton.classList.add("follow-btn");
-//       }
-//     })
-//     .catch((e) => alert("Could not follow user. Are you logged in?"));
-// }
-
 function follow(userId) {
   const followCount = document.querySelector('#profile-number-followers');
   const followButton = document.querySelector('#follow-btn');
 
   fetch(`/user/follow/${userId}`, { method: "POST" })
     .then((res) => {
-      console.log(res); 
       if (res.ok) {
         return res.json();
       } else {
@@ -63,8 +41,12 @@ function follow(userId) {
       }
     })
     .catch((error) => {
-      alert("Could not follow user. " + error.message);
+      alert("Could not follow user. Are you logged in?");
     });
 }
 
+
+function redirectToRoute(route) {
+  window.location.href = route;
+}
 
