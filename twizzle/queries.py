@@ -1,5 +1,5 @@
 from twizzle import cur, conn
-from twizzle.models import User, Post
+from twizzle.models import User, Post, Comment
 from flask import abort
 
 
@@ -253,6 +253,7 @@ def get_comments_by_post_id(post_id):
     comments = cur.fetchall()
     return comments
 
+<<<<<<< HEAD
 def recommend_followers(user_id):
     sql = """
     select user_id2 from
@@ -265,3 +266,56 @@ def recommend_followers(user_id):
     return comments
 
     
+=======
+
+def get_followers_count_for_user(user_id):
+    sql = """
+    SELECT COUNT(*) as follower_count
+    FROM Follows
+    WHERE user_id1 = %s
+    """
+    cur.execute(sql, (user_id,))
+    count = cur.fetchone()
+    follow_count = count['follower_count']
+    return follow_count
+
+
+def get_following_count_for_user(user_id):
+    sql = """
+    SELECT COUNT(*) as following_count
+    FROM Follows
+    WHERE user_id2 = %s
+    """
+    cur.execute(sql, (user_id,))
+    count = cur.fetchone()
+    following_count = count['following_count']
+    return following_count
+
+
+def follow_user(user_id1, user_id2):
+    sql = """
+    INSERT INTO Follows(user_id1, user_id2)
+    VALUES(%s, %s)
+    """
+    cur.execute(sql, (user_id1, user_id2))
+    conn.commit()
+
+
+def unfollow_user(user_id1, user_id2):
+    sql = """
+    DELETE FROM Follows
+    WHERE user_id1 = %s AND user_id2 = %s
+    """
+    cur.execute(sql, (user_id1, user_id2))
+    conn.commit()
+
+
+def does_user_follow(user_id1, user_id2):
+    sql = """
+    SELECT *
+    FROM Follows
+    WHERE user_id1 = %s AND user_id2 = %s
+    """
+    cur.execute(sql, (user_id1, user_id2))
+    return True if cur.rowcount > 0 else False
+>>>>>>> 5daf29a4256a739d7a40cec07403ce7bdbfbeb1a

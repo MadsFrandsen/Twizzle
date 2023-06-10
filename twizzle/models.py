@@ -59,5 +59,13 @@ class Post(ModelUserMixin):
         self.content = post_data.get('content')
 
 
+class Comment(ModelUserMixin):
+    def __init__(self, comment_data: Dict):
+        super(Comment, self).__init__(comment_data)
+        self.cid = comment_data.get('cid')
+        self.uid = comment_data.get('uid')
+        self.pid = comment_data.get('pid')
+        self.content = comment_data.get('content')
+
 
 

@@ -1,0 +1,54 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='profile-card.css') }}">
+
+<div class="profile-card-wrapper">
+    <div class="wrapper">
+        <a class="profile-bg main-wrapper d-block"></a>
+        <div>
+            <a href="#" id="profile-link">
+                <img decoding="async" src="{{ url_for('static', filename='profile_pics/' + user.image_file) }}" id="profile-img">
+            </a>
+            <div id="profile-marg">
+                <div id="profile-name">
+                    <a href="#">{{ user.user_name }}</a>
+                </div>
+                <div>
+                    {% if current_user.is_authenticated %}
+                        <button class="follow-btn {% if follow.followed %}unfollow-btn{% else %}follow-btn{% endif %}" id="follow-btn" onclick="follow({{user.id}})">
+                            {% if follow.followed %}
+                                Unfollow
+                            {% else %}
+                                Follow
+                            {% endif %}
+                        </button>
+                    {% else %}
+                        <button class="follow-btn" id="follow-btn" onclick="follow({{user.id}})">
+                            Follow
+                        </button>
+                    {% endif %}
+                </div>                
+            </div>
+            <div id="profile-state">
+                <ul id="profile-Arrange">
+                    <li id="profile-details">
+                        <a href="#">
+                            <span class="d-block" id="profile-label-posts">Posts</span>
+                            <span id="profile-number">{{ total_posts }}</span>
+                        </a>
+                    </li>
+                    <li id="profile-details">
+                        <a href="#">
+                            <span class="d-block" id="profile-label-following">Following</span>
+                            <span id="profile-number">{{ follow.following }}</span>
+                        </a>
+                    </li>
+                    <li id="profile-details">
+                        <a href="#">
+                            <span class="d-block" id="profile-label-followers">Followers</span>
+                            <span id="profile-number-followers">{{ follow.followers }}</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

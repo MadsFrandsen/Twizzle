@@ -14,8 +14,6 @@ ON Users(user_id, email_address);
 DELETE FROM Users;
 
 
-
-
 DROP TABLE IF EXISTS Posts CASCADE;
 
 CREATE TABLE IF NOT EXISTS Posts(
