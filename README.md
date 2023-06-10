@@ -1,7 +1,7 @@
 # Twizzle
 Repo for Twizzle! A social media platform heavily inspired by twitter. 
 
-This project was created as part of the database course Databases and Information Systems at The University of Copenhagen. Objective is to become familiar with PostgreSQL and web development with Python and the Flask API. 
+This project was created as part of the database course Databases and Information Systems at The University of Copenhagen. Objective is to become familiar with PostgreSQL and web development using Python and the Flask API as our tools. 
 
 
 
