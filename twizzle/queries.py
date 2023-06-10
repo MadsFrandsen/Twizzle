@@ -233,14 +233,6 @@ def add_comment(comment: Comment):
     cur.execute(sql, (comment.uid, comment.pid, comment.content))
     conn.commit()
 
-# def insert_post(post: Post):
-#     sql = """
-#     INSERT INTO Posts(title, content, user_id)
-#     VALUES (%s, %s, %s)
-#     """
-#     cur.execute(sql, (post.title, post.content, post.uid))
-#     conn.commit()
-
 
 def delete_comment(comment_id):
     sql = """
@@ -261,7 +253,6 @@ def get_comments_by_post_id(post_id):
     comments = cur.fetchall()
     return comments
 
-<<<<<<< HEAD
 def recommend_followers(user_id):
     sql = """
     select user_id2 from
@@ -274,7 +265,6 @@ def recommend_followers(user_id):
     return comments
 
     
-=======
 
 def get_comments_count_by_post_id(post_id):
     sql = """
@@ -348,4 +338,3 @@ def does_user_follow(user_id1, user_id2):
     """
     cur.execute(sql, (user_id1, user_id2))
     return True if cur.rowcount > 0 else False
->>>>>>> 5daf29a4256a739d7a40cec07403ce7bdbfbeb1a
