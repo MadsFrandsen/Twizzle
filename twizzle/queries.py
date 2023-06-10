@@ -252,3 +252,10 @@ def get_comments_by_post_id(post_id):
     cur.execute(sql, (post_id))
     comments = cur.fetchall()
     return comments
+
+def recommend_followers(user_id):
+    sql = """
+    SELECT *
+    FROM 
+    """
+    pass
