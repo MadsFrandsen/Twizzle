@@ -6,7 +6,7 @@
             <div class="media-body">
                 <div class="article-metadata">
                     <a class="mr-2" href="{{ url_for('users.user_posts', user_name=post.user_name) }}">{{ post.user_name }}</a>
-                    <small class="text-muted">{{ post.post_date }}</small>
+                    <small class="text-muted">{{ post.formatted_date }}</small>
                 </div>
                 <h2><a class="article-title" href="{{ url_for('posts.post', post_id=post.post_id) }}">{{ post.title }}</a></h2>
                 <p class="article-content">{{ post.content }}</p>

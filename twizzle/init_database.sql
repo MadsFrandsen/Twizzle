@@ -59,6 +59,7 @@ CREATE TABLE IF NOT EXISTS Comments(
     user_id INTEGER,
     post_id INTEGER,
     content TEXT,
+    comment_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES Users(user_id),
     FOREIGN KEY (post_id) REFERENCES Posts(post_id)
 );

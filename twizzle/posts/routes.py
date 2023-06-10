@@ -102,17 +102,4 @@ def like(post_id):
     return jsonify({"likes": likes, "liked": liked})
 
 
-@posts.route("/post/<int:post_id>/comment", methods=['GET', 'POST'])
-@login_required
-def new_comment(post_id):
-    form = CommentForm()
-    post = get_post_by_id(post_id)
-    if form.validate_on_submit():
-        comment_data = dict(content=form.content,
-                            uid=current_user.id,
-                            pid=post.pid)
-        comment = Comment(comment_data)
-        add_comment(comment)
-        flash('Your comment has been created!', 'success')
-        return redirect(url_for('posts.post', post_id=post_id))
     

@@ -76,7 +76,9 @@ def get_all_posts():
 
 def get_some_posts(offset, limit):
     sql = """
-    SELECT P.post_id, P.title, P.content, P.post_date, U.user_name, U.image_file
+    SELECT P.post_id, P.title, P.content, 
+    TO_CHAR(P.post_date, 'YYYY-MM-DD HH:MI') AS formatted_date, 
+    U.user_name, U.image_file
     FROM Posts P
     JOIN Users U ON P.user_id = U.user_id
     ORDER BY P.post_date DESC
@@ -99,7 +101,9 @@ def get_total_posts_count():
 
 def get_some_posts_by_user(user: User, offset, limit):
     sql = """
-    SELECT P.post_id, P.title, P.content, P.post_date, U.user_name, U.image_file
+    SELECT P.post_id, P.title, P.content, 
+    TO_CHAR(P.post_date, 'YYYY-MM-DD HH:MI') AS formatted_date, 
+    U.user_name, U.image_file
     FROM Posts P, Users U
     WHERE P.user_id = U.user_id AND P.user_id = %s
     ORDER BY P.post_date DESC
@@ -123,7 +127,9 @@ def get_user_post_count(user: User):
 
 def get_post_by_id(id):
     sql = """
-    SELECT P.post_id, P.user_id, P.title, P.content, P.post_date, U.user_name, U.image_file
+    SELECT P.post_id, P.user_id, P.title, P.content,
+    TO_CHAR(P.post_date, 'YYYY-MM-DD HH:MI') AS formatted_date, 
+    U.user_name, U.image_file
     FROM Posts P
     JOIN Users U ON P.post_id = %s AND P.user_id = U.user_id
     """
@@ -245,13 +251,14 @@ def delete_comment(comment_id):
 
 def get_comments_by_post_id(post_id):
     sql = """
-    SELECT *
-    FROM Comments
-    WHERE post_id = %s
+    SELECT *, TO_CHAR(C.comment_date, 'YYYY-MM-DD HH:MI') AS formatted_date
+    FROM Comments C
+    JOIN Users U on C.post_id = %s AND C.user_id = U.user_id
     """
     cur.execute(sql, (post_id,))
     comments = cur.fetchall()
     return comments
+
 
 def recommend_followers(user_id):
     sql = """
@@ -265,7 +272,6 @@ def recommend_followers(user_id):
     return comments
 
     
-
 def get_comments_count_by_post_id(post_id):
     sql = """
     SELECT COUNT(*) AS comments_count
@@ -338,3 +344,6 @@ def does_user_follow(user_id1, user_id2):
     """
     cur.execute(sql, (user_id1, user_id2))
     return True if cur.rowcount > 0 else False
+
+
+
