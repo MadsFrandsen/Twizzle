@@ -261,6 +261,20 @@ def get_comments_by_post_id(post_id):
     comments = cur.fetchall()
     return comments
 
+<<<<<<< HEAD
+def recommend_followers(user_id):
+    sql = """
+    select user_id2 from
+    (select user_id2, count(user_id2)from follows_test 
+    where user_id1 !=%s and user_id1 in (select user_id2 from follows_test where user_id1 = %s) 
+    group by user_id2 having count(user_id2)>1) as finnal order by count desc;
+    """
+    cur.execute(sql, (user_id))
+    comments = cur.fetchall()
+    return comments
+
+    
+=======
 
 def get_comments_count_by_post_id(post_id):
     sql = """
@@ -334,3 +348,4 @@ def does_user_follow(user_id1, user_id2):
     """
     cur.execute(sql, (user_id1, user_id2))
     return True if cur.rowcount > 0 else False
+>>>>>>> 5daf29a4256a739d7a40cec07403ce7bdbfbeb1a
