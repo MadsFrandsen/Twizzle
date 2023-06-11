@@ -1,5 +1,5 @@
 from flask import render_template, request, abort, Blueprint
-from twizzle.queries import get_some_posts, get_total_posts_count, get_likes_for_post, has_user_liked_post, get_comments_count_by_post_id
+from twizzle.queries import get_some_posts, get_total_posts_count, get_likes_for_post, has_user_liked_post, get_comments_count_by_post_id, recommend_followers, get_user_by_id
 from flask_login import current_user
 
 
@@ -29,12 +29,22 @@ def home():
         if current_user.is_authenticated:
             has_liked = has_user_liked_post(current_user.id, post['post_id'])
             post['liked'] = has_liked
+    
 
+    rec_followers = {}
+    if current_user.is_authenticated:
+        rec_followers = recommend_followers(current_user.id)
+        for rec_follow in rec_followers:
+            user = get_user_by_id(rec_follow['user_id1'])
+            rec_follow['user_name'] = user.user_name
+            rec_follow['image_file'] = user.image_file
+     
 
     pages = [i for i in range(1, total_pages+1)]
     return render_template('home.html', posts=posts, page=page, 
                            total_pages=total_pages, pages=pages, 
-                           total_posts=total_posts['count'])
+                           total_posts=total_posts['count'],
+                           rec_followers=rec_followers)
 
 
 @main.route("/about")

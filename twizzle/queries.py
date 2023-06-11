@@ -262,12 +262,12 @@ def get_comments_by_post_id(post_id):
 
 def recommend_followers(user_id):
     sql = """
-    select user_id2 from
-    (select user_id2, count(user_id2)from follows_test 
-    where user_id1 !=%s and user_id1 in (select user_id2 from follows_test where user_id1 = %s) 
-    group by user_id2 having count(user_id2)>1) as finnal order by count desc;
+    select user_id1 from
+    (select user_id1, count(user_id1)from follows 
+    where user_id2 !=%s and user_id2 in (select user_id1 from follows where user_id2 = %s) 
+    group by user_id1 having count(user_id1)>1) as finnal order by count desc;
     """
-    cur.execute(sql, (user_id))
+    cur.execute(sql, (user_id, user_id))
     comments = cur.fetchall()
     return comments
 

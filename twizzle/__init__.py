@@ -27,7 +27,7 @@ db_file = open(data_base)
 
 hased_csv_path = os.path.join(current_dir, 'twizzle/dataset/only_hashed.csv')
 post_data_csv_path = os.path.join(current_dir, 'twizzle/dataset/post_data.csv')
-
+follow_data_csv_path = os.path.join(current_dir, 'twizzle/dataset/follows.csv')
 
 
 conn = psycopg2.connect(
@@ -51,6 +51,13 @@ cur.execute(f"""
 cur.execute(f"""
     COPY Posts(title, content, user_id)
     FROM '{post_data_csv_path}'
+    DELIMITER ','
+    CSV HEADER;
+""")
+
+cur.execute(f"""
+    COPY Follows(user_id1, user_id2)
+    FROM '{follow_data_csv_path}'
     DELIMITER ','
     CSV HEADER;
 """)

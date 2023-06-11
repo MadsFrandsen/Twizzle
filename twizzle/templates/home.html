@@ -16,3 +16,14 @@
     {% endfor %}
     {% include 'pagination.html' %}
 {% endblock content %}
+{% block rec_followers %}
+    <div>
+        Suggested people to follow:
+    </div>
+    {% if current_user.is_authenticated %}
+    {% for rec in rec_followers %}
+        <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + rec.image_file) }}">
+        <a class="mr-2" href="{{ url_for('users.user_posts', user_name=rec.user_name) }}">{{ rec.user_name }}</a>
+    {% endfor %}
+    {% endif %}
+{% endblock rec_followers %}
