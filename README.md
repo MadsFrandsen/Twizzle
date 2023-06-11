@@ -30,6 +30,23 @@ When the information is present and correct, the server can be started with:
 
 while standing in the root root directory of the project. In the __init__.py file in the /twizzle directory, you can also change the host and the port number of the server. By default the port is set to 5123 as this was the port we used.
 
-## Folder setup 📁
+## functionalities
+
+The web applicaiton currently supports the creation of user accounts, which you can then login with. On the page you can then write posts, comment on other posts, like posts and follow other users. You can also delete and update your own posts, change your user information such as name, email, profile-picture etc. If the users you follow has other users they follow in common, you will be recommended those users as 'suggested people to follow'.
+
+
+## Known errors and unfished features
+
+- The HTML/CSS for the recommended users is not complete at all, and only just displays the user name with a link of the suggested users to follow.
+- The HTML/CSS is not complete for comments. Need to implement the 'like' feature for comments etc.
+- The reset password route currently does not work due to an issue with the python package 'itsdangerous'. It works if you run an older package which you can install with the following command:
+
+    pip install itsdangerous==2.0.1
+
+and in the models.py file change the import from:
+from itsdangerous import URLSafeTimedSerializer as Serializer
+to:
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+
 
 
