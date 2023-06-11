@@ -34,6 +34,8 @@ while standing in the root root directory of the project. In the __init__.py fil
 
 The web applicaiton currently supports the creation of user accounts, which you can then login with. On the page you can then write posts, comment on other posts, like posts and follow other users. You can also delete and update your own posts, change your user information such as name, email, profile-picture etc. If the users you follow has other users they follow in common, you will be recommended those users as 'suggested people to follow'.
 
+The web app currently also hashes a users password on creation, and therefore does not store the actual password but only the hash. If you want to login to an already existing user from the dataset, you must therefore then use the actual password from the user and not the hash. Those can only be found by looking them up in the .csv files.
+
 
 ## Known errors and unfished features
 
