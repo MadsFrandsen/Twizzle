@@ -20,36 +20,46 @@ login_manager.login_view = 'users.login'
 login_manager.login_message_category = 'info'
 mail = Mail()
 
+current_dir = os.getcwd()
 
-data_base = os.path.join(os.getcwd(), 'twizzle/init_database.sql')
+data_base = os.path.join(current_dir, 'twizzle/init_database.sql')
 db_file = open(data_base)
+
+hased_csv_path = os.path.join(current_dir, 'twizzle/dataset/only_hashed.csv')
+post_data_csv_path = os.path.join(current_dir, 'twizzle/dataset/post_data.csv')
+
 
 
 conn = psycopg2.connect(
     host="localhost",
-    dbname="FlaskBlog",
-    user="postgres",
-    password="",
-    port="5123"
+    port="5123",
+    dbname=os.environ.get('DB_NAME'),
+    user=os.environ.get('DB_USER'),
+    password=os.environ.get('DB_PASS')
 )
 cur = conn.cursor(cursor_factory=RealDictCursor)
 cur.execute(db_file.read())
+db_file.close()
+
+cur.execute(f"""
+    COPY Users(email_address, user_name, password)
+    FROM '{hased_csv_path}'
+    DELIMITER ','
+    CSV HEADER;
+""")
+
+cur.execute(f"""
+    COPY Posts(title, content, user_id)
+    FROM '{post_data_csv_path}'
+    DELIMITER ','
+    CSV HEADER;
+""")
+
 conn.commit()
 
 
 def init_users(data):
     from twizzle.queries import init_user
-
-    # data = {'email_address': ['test@gmail.com'],
-    #     'user_name': ['test'],
-    #     'password': ['123']}
-    
-    # df = pandas.DataFrame(data)
-
-    # hashed_password = bcrypt.generate_password_hash(df['password']).decode('utf-8')
-    # user_data = dict(email_address='test@gmail.com',
-    #                      user_name='test',
-    #                      password=hashed_password)
 
     for _, row in data.iterrows():
         email_address = row['email_address']
@@ -58,14 +68,6 @@ def init_users(data):
 
         hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
         init_user(email_address, user_name, hashed_password)
-
-
-
-    # hashed_password = bcrypt.generate_password_hash('123').decode('utf-8')
-    # user_data = dict(email_address='test@gmail.com',
-    #                      user_name='test',
-    #                      password=hashed_password)
-    # init_user(user_data)
 
 
 def create_app(config_cass=Config):
@@ -85,8 +87,6 @@ def create_app(config_cass=Config):
     app.register_blueprint(main)
     app.register_blueprint(errors)
 
-    # data = pd.read_csv('/Users/madsfrandsen/Documents/DIS/Group_Project/twizzle/dataset/MOCK_DATA.csv')
-    # init_users(data)
 
     return app
 

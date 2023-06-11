@@ -65,15 +65,4 @@ CREATE TABLE IF NOT EXISTS Comments(
 );
 
 
-COPY Users(email_address, user_name, password)
-FROM '/Users/madsfrandsen/Documents/DIS/Group_Project/twizzle/dataset/only_hashed.csv'
-DELIMITER ','
-CSV HEADER;
 
-COPY Posts(title, content, user_id)
-FROM '/Users/madsfrandsen/Documents/DIS/Group_Project/twizzle/dataset/post_data.csv'
-DELIMITER ','
-CSV HEADER;
-
-
-/*id SERIAL not null PRIMARY KEY,*/
